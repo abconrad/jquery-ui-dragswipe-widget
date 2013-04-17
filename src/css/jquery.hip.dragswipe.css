@@ -1,0 +1,7 @@
+/*! jQuery DragSwipe UI Widget
+* http://hippomanager.com
+* Copyright 2013 Bart Conrad Licensed GPL */
+.hip-dragswipe-state-swipe {
+    color: #f00;
+    background-color: #ffc0cb;
+}

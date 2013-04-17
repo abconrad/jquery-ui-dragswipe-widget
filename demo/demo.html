@@ -1,0 +1,502 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>DragSwipe | A jQuery Draggable Extension</title>
+        
+        <link rel="stylesheet" href="includes/css/style.css" />
+        <link rel="stylesheet" href="../src/css/jquery.hip.dragswipe.css" />
+        
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+        <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
+        <script src="../src/js/jquery.hip.dragswipe.js"></script>
+        <script src="../src/js/jquery.ui.touch.js"></script>
+        
+        <script type="text/javascript">
+            (function($) {
+                $(document).ready(function() {
+                    //Demo #1
+                    $('.demo1>li').dragswipe();
+
+                    //Demo #2
+                    $('.any-200').dragswipe({
+                        axis: false
+                    });
+                    $('.vert-100').dragswipe({
+                        swipeDistance: 100,
+                        axis: 'y'
+                    });
+                    $('.hor-50').dragswipe({
+                        swipeDistance: 50
+                    });
+
+                    //Demo #3
+                    $('.demo3>li').dragswipe({
+                        swipeDistance: 75,
+                        removeOnSwipe: true
+                    });
+
+                    //Demo #4
+                    $('.custom-event').dragswipe({
+                        axis: false,
+                        swipe: function (event, ui) {
+                            alert('I have been swiped!');
+                        }
+                    });           
+
+                    //Demo #5
+                    $('.custom-trigger').dragswipe();
+                    
+                    $('.custom-trigger').on(
+                        'dragswipeswipe',
+                        function (e) {
+                            alert('The 5th demo was swiped!');
+                        }
+                    );
+                });
+            })(jQuery);
+        </script>
+    </head>
+    <body>
+        <div id="page">
+            <div id="container">
+                <a name="what"></a>
+                <h1>What is It?</h1>
+                <p>
+                    DragSwipe is a small 
+                    <a href="http://jqueryui.com/" target="_blank">jQuery UI</a> 
+                    extension of the default 
+                    <a href="http://jqueryui.com/draggable/" target="_blank">Draggable</a>
+                    plugin provided by the jQuery UI team.  It allows 
+                    you to fire events after a user has dragged an element a 
+                    predefined distance.  Because it is an extension of 
+                    jQuery UI's Draggable plugin it also has all of the 
+                    functionality and accepts all options of jQuery UI 
+                    Draggable.
+                </p>
+                <p>
+                    The jQuery UI Draggable and Droppable plugins are great for 
+                    allowing you to raise events when the user drags an 
+                    element to a prespecified area.  What if you want to be 
+                    able to raise events when a user drags an element a 
+                    prespecified distance?  You can almost do it by combining 
+                    Draggable and Droppable with some creative HTML but it is 
+                    hacky and doesn't work as well as I would like.
+                </p>
+                <p>
+                    I designed DragSwipe to emulate the swipe functionality of 
+                    notifications on Android devices.  It does this well and 
+                    is also flexible enough to have the potential to do much
+                    more.
+                </p>
+                <p>
+                    Soon you will be able to download and follow this project
+                    on GitHub.
+                </p>
+                
+                <a name="demos"></a>
+                <h1>Demos</h1>
+                
+                <a name="default"></a>
+                <h2>Default Functionality</h2>
+                <p>
+                    Enable dragswipe functionality on any DOM element. Move 
+                    the dragswipe object by clicking on it left or right.
+                    When the element is dragged passed farther than 150px (the 
+                    default swipe distance threshold) it enters swipe state.
+                </p>
+                <p>
+                    You can define the elements swipe state style in CSS.
+                    Here is the CSS applied to all of the following demos.
+                </p>
+                <h4>CSS:</h4>
+                <pre class='prettyprint language-css'>
+
+    .hip-dragswipe-state-swipe {
+        color: #f00;
+        background-color: #ffc0cb;
+    }               
+                </pre>
+                <p>
+                    DragSwipe toggles the <code>hip-dragswipe-state-swipe</code>
+                    class depending on whether it has been dragged past it's
+                    threshold.
+                </p>
+                <div class="box">
+                    <ul class="demo1">
+                        <li>Item 1</li>
+                        <li>Item 2</li>
+                        <li>Item 3</li>
+                        <li>Item 4</li>
+                        <li>Item 5</li>
+                    </ul>
+                </div>
+                <div class='demo-code'>
+                    <h4>JavaScript:</h4>
+                    <pre class='prettyprint'>
+
+    //Default Functionality
+    $(document).ready(function() {
+        $('.demo1>li').dragswipe();
+    });
+                    </pre>
+                    
+                    <h4>HTML:</h4>
+                    <pre class='prettyprint'>
+
+    &lt;div class=&quot;box&quot;&gt;
+        &lt;ul class=&quot;demo1&quot;&gt;
+            &lt;li&gt;Item 1&lt;/li&gt;
+            &lt;li&gt;Item 2&lt;/li&gt;
+            &lt;li&gt;Item 3&lt;/li&gt;
+            &lt;li&gt;Item 4&lt;/li&gt;
+            &lt;li&gt;Item 5&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+                    </pre>
+                </div>
+                
+                <a name="direction"></a>
+                <a name="distance"></a>
+                <h2>Swipe Direction and Distance</h2>
+                <p>
+                    Define the axis that the elements are allowed to be dragged.
+                    Set the <code>axis</code> option to limit the draggable's 
+                    path to the x- or y-axis.
+                </p>
+                <p>
+                    Define the swipe threshold distance by passing a value
+                    to the <code>swipeDistance</code> option.
+                    <code>swipeDistance</code> accepts a numeric number of
+                    pixels.
+                </p>
+                <div class="box">
+                    <div class="item-box any-200">
+                        I will enter swiped state after being dragged 200 
+                        pixels in any direction.
+                    </div>
+                    <div class="item-box vert-100">
+                        I will enter swiped state after being dragged 100 
+                        pixels vertically.
+                    </div>
+                    <div class="item-box hor-50">
+                        I will enter swiped state after being dragged 50 
+                        pixels horizontally.
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <div class='demo-code'>
+                    <h4>JavaScript:</h4>
+                    <pre class='prettyprint'>
+
+    //Swipe Direction and Distance
+    $(document).ready(function() {
+        $('.any-200').dragswipe({
+            axis: false
+        });
+        $('.vert-100').dragswipe({
+            swipeDistance: 100,
+            axis: 'y'
+        });
+        $('.hor-50').dragswipe({
+            swipeDistance: 50
+        });
+    });
+                    </pre>
+                    
+                    <h4>HTML:</h4>
+                    <pre class='prettyprint'>
+
+    &lt;div class=&quot;box&quot;&gt;
+        &lt;div class=&quot;item-box any-200&quot;&gt;
+            I will enter swiped state after being dragged 200 
+            pixels in any direction.
+        &lt;/div&gt;
+        &lt;div class=&quot;item-box vert-100&quot;&gt;
+            I will enter swiped state after being dragged 100 
+            pixels vertically.
+        &lt;/div&gt;
+        &lt;div class=&quot;item-box hor-50&quot;&gt;
+            I will enter swiped state after being dragged 50 
+            pixels horizontally.
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div style=&quot;clear:both&quot;&gt;&lt;/div&gt;
+                    </pre>
+                </div>
+
+                <a name="remove"></a>
+                <h2>Remove after Swipe</h2>
+                <p>
+                    Remove an element from the unordered list by swiping left
+                    or right.  Setting the <code>removeOnSwipe</code> to
+                    true causes the element to be removed from the DOM when
+                    it gets swiped.
+                </p>
+                <div class="box">
+                    <ul class="demo3">
+                        <li>Swipe to remove 1</li>
+                        <li>Swipe to remove 2</li>
+                        <li>Swipe to remove 3</li>
+                        <li>Swipe to remove 4</li>
+                        <li>Swipe to remove 5</li>
+                    </ul>
+                </div>
+                <div class='demo-code'>
+                    <h4>JavaScript:</h4>
+                    <pre class='prettyprint'>
+
+    //Remove after Swipe
+    $(document).ready(function() {
+        $('.demo3>li').dragswipe({
+            swipeDistance: 75,
+            removeOnSwipe: true
+        });
+    });
+                    </pre>
+                    
+                    <h4>HTML:</h4>
+                    <pre class='prettyprint'>
+
+    &lt;div class=&quot;box&quot;&gt;
+        &lt;ul class=&quot;demo3&quot;&gt;
+            &lt;li&gt;Swipe to remove 1&lt;/li&gt;
+            &lt;li&gt;Swipe to remove 2&lt;/li&gt;
+            &lt;li&gt;Swipe to remove 3&lt;/li&gt;
+            &lt;li&gt;Swipe to remove 4&lt;/li&gt;
+            &lt;li&gt;Swipe to remove 5&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+                    </pre>
+                </div>
+
+                <a name="custom"></a>
+                <h2>Custom Functionality after Swipe</h2>
+                <p>
+                    Call a custom function after the element is swiped.  This
+                    is done by passing <code>swipe</code> as a callback 
+                    function.
+                </p>
+                <div class="box">
+                    <div class="item-box custom-event">
+                        I will run a custom method after swiped.
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <div class='demo-code'>
+                    <h4>JavaScript:</h4>
+                    <pre class='prettyprint'>
+
+    //Custom Functionality after Swipe
+    $(document).ready(function() {
+        $('.custom-event').dragswipe({
+            axis: false,
+            swipe: function (event, ui) {
+                alert('I have been swiped!');
+            }
+        });
+    });
+                    </pre>
+                    
+                    <h4>HTML:</h4>
+                    <pre class='prettyprint'>
+
+    &lt;div class=&quot;box&quot;&gt;
+        &lt;div class=&quot;item-box custom-event&quot;&gt;
+            I will run a custom method after swiped.
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div style=&quot;clear:both&quot;&gt;&lt;/div&gt;
+                    </pre>
+                </div>
+
+                <a name="trigger"></a>
+                <h2>Custom Functionality after Swipe from Trigger</h2>
+                <p>
+                    Swipe also triggers a <code>swipe</code>
+                    event.
+                </p>
+                <p>
+                    jQuery UI prefaces all UI events with the name of the 
+                    widget that fired the event in lowercase.  To listen for
+                    the DragSwipe <code>swipe</code> event you must actually
+                    listen for <code>dragswipeswipe</code>.
+                </p>
+                <div class="box">
+                    <div class="item-box custom-trigger">
+                        Some other JavaScript is listening for my swipe.
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <div class='demo-code'>
+                    <h4>JavaScript:</h4>
+                    <pre class='prettyprint'>
+
+    //Default DragSwipe initialization
+    $('.custom-trigger').dragswipe();
+
+    //Listens for the swipe event
+    $('.custom-trigger').on(
+        'dragswipeswipe',
+        function (e) {
+            alert('The 5th demo was swiped!');
+        }
+    );
+                    </pre>
+                    <a href="http://api.jquery.com/on/" target="_blank">Click here</a> 
+                    for more on listening for events using jQuery.
+                    
+                    <h4>HTML:</h4>
+                    <pre class='prettyprint'>
+
+    &lt;div class=&quot;box&quot;&gt;
+        &lt;div class=&quot;item-box custom-trigger&quot;&gt;
+            Some other JavaScript is listening for my swipe.
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div style=&quot;clear:both&quot;&gt;&lt;/div&gt;
+                    </pre>
+                </div>
+                
+                <a name="options"></a>
+                <h1>Options</h1>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th class='attr-option'>Option</th>
+                            <th class='attr-description'>Description</th>
+                            <th class='attr-default'>Default</th>
+                        </tr>
+                        <tr>
+                            <td>addClasses</td>
+                            <td>
+                                If set to <code>false</code>, will prevent the 
+                                <code>ui-draggable</code> class from being 
+                                added. This may be desired as a performance 
+                                optimization when calling 
+                                <code>.draggable()</code> on hundreds of 
+                                elements.
+                            </td>
+                            <td>true</td>
+                        </tr>
+                        <tr>
+                            <td>axis</td>
+                            <td>
+                                Constrains dragging to either the horizontal 
+                                (x) or vertical (y) axis. Possible values: 
+                                <code>"x"</code>, <code>"y"</code>.
+                            </td>
+                            <td>'x'</td>
+                        </tr>
+                        <tr>
+                            <td>removeOnSwipe</td>
+                            <td>
+                                Removes the element from the DOM if set to 
+                                <code>true</code>
+                            </td>
+                            <td>false</td>
+                        </tr>
+                        <tr>
+                            <td>revertDuration</td>
+                            <td>
+                                The duration of the revert animation, in 
+                                milliseconds. Ignored if the 
+                                <code>revert</code> option is 
+                                <code>false.</code>
+                            </td>
+                            <td>200</td>
+                        </tr>
+                        <tr>
+                            <td>swipeDistance</td>
+                            <td>
+                                Threshold distance, in pixels, the element
+                                can be dragged before it enters the swipe
+                                state.
+                            </td>
+                            <td>150</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    <a href="http://api.jqueryui.com/draggable/#options" target="_blank">Click here</a>
+                    for a list of the options 
+                    provided by jQuery UI Draggable.
+                </p>
+                
+                <a name="events"></a>
+                <h1>Events</h1>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th class='attr-event'>Event</th>
+                            <th class='attr-description'>Description</th>
+                        </tr>
+                        <tr>
+                            <td>create</td>
+                            <td>
+                                Fires when the widget is created for the first 
+                                time.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>swipe</td>
+                            <td>
+                                Fires when a DragSwipe element is dropped 
+                                while in a swipe state (based on 
+                                <code>swipeDistance</code> option).
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    <a href="http://api.jqueryui.com/draggable/#events" target="_blank">Click here</a>
+                    for a list of the events 
+                    provided by jQuery UI Draggable.
+                </p>
+                
+                <a name="methods"></a>
+                <h1>Methods</h1>
+                <p>
+                    There are no public methods added by this plugin.
+                    <a href="http://api.jqueryui.com/draggable/#methods" target="_blank">Click here</a>
+                    for a list of the methods 
+                    provided by jQuery UI Draggable.
+                </p>
+                    
+                <a name="required"></a>
+                <h1>Required Files</h1>
+                <ul>
+                    <li>
+                        <strong>jquery.hip.dragswipe.js</strong>
+                        - DragSwipe
+                    </li>
+                    <li>
+                        <strong>jquery.hip.dragswipe.css</strong>
+                        - Changes the element to red when it enters the swipe
+                        state
+                    </li>
+                    <li>
+                        <strong>jquery.ui.touch.js</strong>
+                        - Touch Events support for jQuery UI
+                        (if you want this plugin to work on devices)
+                    </li>
+                    <li>
+                        jQuery 1.9.1 or higher
+                    </li>
+                    <li>
+                        jQuery UI 1.10.2 or higher
+                    </li>
+                </ul>
+                <p>
+                    Soon you will be able to download and follow this project
+                    on GitHub.
+                </p>
+                
+            </div>
+        </div>
+
+
+    </body>
+</html>
