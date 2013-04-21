@@ -4,7 +4,7 @@
  * jQuery DragSwipe UI Widget v0.1
  * Copyright (c) 2013 Bart Conrad
  *
- * http://www.erichynds.com/jquery/jquery-ui-multiselect-widget/
+ * http://www.hippomanager.com/community/developers/plugins/dragswipe/
  *
  * Depends:
  *   - jQuery 1.9.1+
