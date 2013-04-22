@@ -1,7 +1,7 @@
 /*jslint browser:true, nomen:true, devel:true */
 /*global document, jQuery */
 /*
- * jQuery DragSwipe UI Widget v0.1
+ * jQuery DragSwipe UI Widget v0.1.1
  * Copyright (c) 2013 Bart Conrad
  *
  * http://www.hippomanager.com/community/developers/plugins/dragswipe/
@@ -52,7 +52,7 @@
 
             self.element.data("draggable", this); // Fixes TypeError
             self.element.data("uiDraggable", this); // Fixes TypeError
-            self._super('_create');
+            self._super();
         },
          /**
           * Calculates the change in position.  It adds both axes if the "axis"
@@ -187,7 +187,7 @@
                 el = self.element;
 
             el.removeClass('hip-dragswipe');
-            self._super('_destroy');
+            self._super();
         }
     });
 }(jQuery));
